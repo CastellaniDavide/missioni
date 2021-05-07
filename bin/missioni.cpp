@@ -3,7 +3,7 @@
  *
  * @version 01.01 202156
  *
- * @brief 
+ * @brief
  *
  * @ingroup missioni
  * (Note: this needs exactly one @defgroup somewhere)
@@ -18,25 +18,47 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+struct missione
+{
+    int tempo;
+    int scadenza;
+};
+
 // Variabiles
 int N;
+vector <missione> missioni;
+int soluzioni[366];
 
 // Main code
 int main()
 {
-  // Cncomment the following lines if you want to read/write from files
-  // freopen("input.txt", "r", stdin);
-  // freopen("output.txt", "w", stdout);
+    // Cncomment the following lines if you want to read/write from files
+    freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
-  // Input
-  cin >> N;
+    // Input
+    cin >> N;
+    missioni.resize(N);
 
-  // Code
-  // ...
+    for(size_t i = 0; i < N; ++i)
+        cin >> missioni[i].tempo >> missioni[i].scadenza;
 
-  // Output
-  cout << N << endl;
+    for(size_t i = 0; i < N; ++i)
+    {
+        for (size_t j = missioni[i].scadenza - missioni[i].tempo; j >= 0 && j != -1; --j)
+        {
+            if (soluzioni[j] + 1 > soluzioni[j + missioni[i].tempo])
+                soluzioni[j + missioni[i].tempo] = soluzioni[j] + 1;
+        }
+    }
 
-  // End
-  return 0;
+    int sol = INT_MIN;
+    for (size_t i =0; i < 366; ++i)
+        if(soluzioni[i] > sol)
+            sol = soluzioni[i];
+
+    cout << sol << endl;
+
+    // End
+    return 0;
 }
